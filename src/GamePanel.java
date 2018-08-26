@@ -49,11 +49,12 @@ public class GamePanel extends Observer {
         //put bricks on game panel
         for (int i = 0; i < NUM_BRICKS; i++) {
             int y = (int) (Math.random() * this.getHeight() - 20);
-            int x = (int) ((Math.random() / 3 + 2.0 / 3.0) * this.getWidth() - 20);
+            int x = (int) (Math.min(this.getWidth() - 20, (Math.random() / 3 + 2.0 / 3.0) * this.getWidth()));
             bricks[i] = new Brick(x, y);
         }
 
-        this.addKeyListener(paddle.kyeProcessor);
+        this.addKeyListener(paddle.keyMove);
+        this.addKeyListener(paddle.keyStop);
         this.setFocusable(true);
         this.requestFocusInWindow();
     }
@@ -82,6 +83,7 @@ public class GamePanel extends Observer {
             this.ini();
             this.initial = true;
         }
+        paddle.update();
         checkforCollision();
         ball.update();
         validate();
