@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GamePanel extends Observer {
-    private static final int NUM_BRICKS = 1;
+    private static final int NUM_BRICKS = 5;
     private boolean initial = false;
     private int low, high, left, right;
     private Paddle paddle;
@@ -50,27 +50,72 @@ public class GamePanel extends Observer {
             this.ini();
             this.initial = true;
         }
-        ball.update();
         checkforCollision();
+        ball.update();
         validate();
         repaint();
     }
 
     private void checkforCollision() {
+
+        //check for collision with paddle
+        float nearestX = Math.max(paddle.x, Math.min(ball.cx, paddle.x + paddle.width));
+        float nearestY = Math.max(paddle.y, Math.min(ball.cy, paddle.y + paddle.height));
+
+        float dx = ball.cx - nearestX;
+        float dy = ball.cy - nearestY;
+
+        if ((dx * dx + dy * dy) <= (Ball.RADIUS * Ball.RADIUS)) {
+            float ux = nearestX - ball.cx;
+            float uy = -nearestY + ball.cy;
+            float vx = ball.dx;
+            float vy = -ball.dy;
+
+            double theta = Math.asin((ux * vy - vx * uy) / (Math.sqrt(ux * ux + uy * uy) * Math.sqrt(vx * vx + vy * vy)));
+
+            double nDx = -Math.cos(2 * theta) * ball.dx - Math.sin(2 * theta) * (-ball.dy);
+            double nDy = Math.sin(2 * theta) * ball.dx - Math.cos(2 * theta) * (-ball.dy);
+
+            ball.dx = (float) nDx;
+            ball.dy = (float) -nDy;
+        }
+
         for (Brick b : bricks) {
             if (!b.isDestroyed()) {
                 //check if the brick overlaps with ball
-                float nearestX = Math.max(b.x, Math.min(ball.cx, b.x + Brick.WIDTH));
-                float nearestY = Math.max(b.y, Math.min(ball.cy, b.y + Brick.HEIGHT));
+                nearestX = Math.max(b.x, Math.min(ball.cx, b.x + Brick.WIDTH));
+                nearestY = Math.max(b.y, Math.min(ball.cy, b.y + Brick.HEIGHT));
 
-                float dx = ball.cx - nearestX;
-                float dy = ball.cy - nearestY;
+                dx = ball.cx - nearestX;
+                dy = ball.cy - nearestY;
+
                 if ((dx * dx + dy * dy) < (Ball.RADIUS * Ball.RADIUS)) {
                     b.setDestroyed();
-                    System.out.println("Overlap");
+                    float ux = nearestX - ball.cx;
+                    float uy = -nearestY + ball.cy;
+                    float vx = ball.dx;
+                    float vy = -ball.dy;
+
+                    double theta = Math.asin((ux * vy - vx * uy) / (Math.sqrt(ux * ux + uy * uy) * Math.sqrt(vx * vx + vy * vy)));
+
+                    double nDx = -Math.cos(2 * theta) * ball.dx - Math.sin(2 * theta) * (-ball.dy);
+                    double nDy = Math.sin(2 * theta) * ball.dx - Math.cos(2 * theta) * (-ball.dy);
+
+                    ball.dx = (float) nDx;
+                    ball.dy = (float) -nDy;
                 }
             }
         }
+    }
+
+    public float clamp(float value, float min, float max) {
+        float x = value;
+        if (x < min) {
+            x = min;
+        } else if (x > max) {
+            x = max;
+        }
+        return x;
     }
 
 }

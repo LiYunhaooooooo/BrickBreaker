@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 
 
 //paddle moves within 0 to 2/3 of width
-class Paddle { 
+class Paddle {
 	public int x,y;
 	public int width,height;
 	public int speed = 10;
