@@ -46,16 +46,16 @@ public class ObserverPattern {
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		StaticPanel sp = new StaticPanel();
 		GamePanel gp = new GamePanel();
-		sp.setPreferredSize(new Dimension(100,500));
+		sp.setPreferredSize(new Dimension(150,500));
 //		sp.setBorder(BorderFactory.createLineBorder(Color.green));
 
-		gp.setPreferredSize(new Dimension(400,500));
+		gp.setPreferredSize(new Dimension(500,500));
 		gp.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		
 		frame.add(sp);
 		frame.add(gp);
 		frame.setLocationRelativeTo(null);
-		frame.setSize(500, 500);
+		frame.setSize(650, 500);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MyTimer t = new MyTimer();
