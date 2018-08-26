@@ -141,15 +141,4 @@ public class GamePanel extends Observer {
             }
         }
     }
-
-    public float clamp(float value, float min, float max) {
-        float x = value;
-        if (x < min) {
-            x = min;
-        } else if (x > max) {
-            x = max;
-        }
-        return x;
-    }
-
 }
