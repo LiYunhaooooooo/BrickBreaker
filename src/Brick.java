@@ -23,8 +23,9 @@ class Brick {
     }
 
     public void draw(Graphics g){
-        g.setColor(Color.MAGENTA);
+        g.setColor(Color.DARK_GRAY);
         g.fillRect(x, y, WIDTH, HEIGHT);
+//        g.fillRoundRect(x, y, WIDTH, HEIGHT, 8, 8);
     }
 
 }
