@@ -28,14 +28,15 @@ public class GamePanel extends Observer {
     }
 
     public GamePanel() {
-    	try {
-			image = ImageIO.read(new File("./src/water.jpg"));
-			image = resize(image, 500, 500);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            image = ImageIO.read(new File("./src/water.jpg"));
+            image = resize(image, 500, 500);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
+
     public void ini() {
         low = left = 0;
         high = this.getHeight();
@@ -63,7 +64,7 @@ public class GamePanel extends Observer {
         super.paint(g);
         if (image != null) {
             int x = (getWidth() - image.getWidth()) / 2;
-            int y = (getHeight()- image.getHeight()) / 2;
+            int y = (getHeight() - image.getHeight()) / 2;
             g.drawImage(image, 0, 0, this);
         }
         g.setColor(Color.blue);
@@ -84,8 +85,8 @@ public class GamePanel extends Observer {
             this.initial = true;
         }
         paddle.update();
-        checkforCollision();
         ball.update();
+        checkforCollision();
         validate();
         repaint();
     }
@@ -99,7 +100,16 @@ public class GamePanel extends Observer {
         float dx = ball.cx - nearestX;
         float dy = ball.cy - nearestY;
 
-        if ((dx * dx + dy * dy) <= (Ball.RADIUS * Ball.RADIUS)) {
+        if ((dx * dx + dy * dy) < (Ball.RADIUS * Ball.RADIUS)) {
+
+            if (paddle.speed != 0) {
+                if(paddle.direction == 0){
+                    ball.cx = ball.cx + 2*paddle.speed;
+                }else{
+                    ball.cy = ball.cy + 2*paddle.speed;
+                }
+            }
+
             float ux = nearestX - ball.cx;
             float uy = -nearestY + ball.cy;
             float vx = ball.dx;
