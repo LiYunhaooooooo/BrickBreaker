@@ -1,3 +1,5 @@
+
+
 class Ball {
     // Box height and width
     int width;
@@ -17,8 +19,8 @@ class Ball {
     float cy = RADIUS + 20;
 
     // Direction
-    float dx = 1;
-    float dy = 1;
+    float dx = 1.5f;
+    float dy = 1.5f;
 
     public void update() {
 

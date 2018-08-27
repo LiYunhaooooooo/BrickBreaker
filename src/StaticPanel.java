@@ -16,9 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 class StaticPanel extends Observer {
 	private JPanel topPanel, bottomPanel;
@@ -112,8 +110,15 @@ class StaticPanel extends Observer {
 			}
 			counter = 0;
 		}
+
 		tens_clock.setText(Integer.toString(tens_time));
 		units_clock.setText(Integer.toString(units_time));
+		if(tens_time ==2 && units_time == 0){
+			int choice = JOptionPane.showConfirmDialog(null, "Time Limit Execeeded!! Game Over", "Level 1", JOptionPane.OK_CANCEL_OPTION);
+			if (choice == JOptionPane.OK_OPTION || choice == JOptionPane.CANCEL_OPTION) {
+				System.exit(0);
+			}
+		}
 		repaint();
 	}
     public void paint(Graphics g) {

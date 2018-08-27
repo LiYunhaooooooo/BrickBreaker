@@ -5,16 +5,18 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 import javax.imageio.ImageIO;
 
 public class GamePanel extends Observer {
-    private static final int NUM_BRICKS = 5;
+    private static final int NUM_BRICKS = 3;
     private boolean initial = false;
     private int low, high, left, right;
     private Paddle paddle;
     private Ball ball;
     private Brick[] bricks = new Brick[NUM_BRICKS];
+    private int DESTROYED_BRICKS = NUM_BRICKS;
 
     private BufferedImage image;
 
@@ -84,9 +86,25 @@ public class GamePanel extends Observer {
             this.ini();
             this.initial = true;
         }
-        paddle.update();
-        ball.update();
-        checkforCollision();
+        if(DESTROYED_BRICKS > 0){
+
+            paddle.update();
+            checkforCollision();
+            ball.update();
+        }
+
+        else {
+            //display window
+            int choice = JOptionPane.showConfirmDialog(null, "Congratulations!! Game completed", "Level 1", JOptionPane.OK_CANCEL_OPTION);
+            if (choice == JOptionPane.OK_OPTION || choice == JOptionPane.CANCEL_OPTION) {
+                System.exit(0);
+            }
+
+        }
+
+
+
+
         validate();
         repaint();
     }
@@ -135,6 +153,7 @@ public class GamePanel extends Observer {
 
                 if ((dx * dx + dy * dy) < (Ball.RADIUS * Ball.RADIUS)) {
                     b.setDestroyed();
+                    DESTROYED_BRICKS--;
                     float ux = nearestX - ball.cx;
                     float uy = -nearestY + ball.cy;
                     float vx = ball.dx;
